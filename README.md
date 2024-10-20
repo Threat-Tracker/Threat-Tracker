@@ -19,6 +19,33 @@ Threat Tracker is an iOS app built with React Native that provides real-time thr
 - **AI Integration**: Hyperbolic Labs LLM for location and danger level processing
 - **Hosting**: Reflex.dev
 
+## Reflex Hosted API
+- Using FastAPI framework and adapted in Reflex
+- Two endpoints connected to the MongoDB
+
+```py
+#get request
+import requests
+
+url = "https://rxh-prod-api-threattracker.fly.dev/locations"
+
+response = requests.request("GET", url)
+```
+```py
+#post information
+import requests
+
+url = "https://rxh-prod-api-threattracker.fly.dev/locations/"
+
+payload = {
+    "latitude": 1,
+    "longitude": 1,
+    "weight": 3,
+    "summary": "summary goes here"
+}
+response = requests.request("POST", url, json=payload)
+```
+
 <img title="LLM scraped data" src="news.png">
 
 - **LLM usage**: Extracted coordinates using Hyperbolic Labs' LLM from News articles scrabed from web. Also the danger level of incidents were assessed using LLM from the news.
