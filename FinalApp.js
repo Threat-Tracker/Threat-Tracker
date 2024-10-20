@@ -1,17 +1,16 @@
-// Welcome Screen Component with Map Integration
 import React, { useState } from 'react';
-import { View, StyleSheet, Modal, Text, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, Slider, Platform } from 'react-native';
 import MapView, { Heatmap, PROVIDER_GOOGLE } from 'react-native-maps';
 
 function WelcomeScreen() {
-  const [threatLevel, setThreatLevel] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
   const [threatDetails, setThreatDetails] = useState('');
+  const [threatLevel, setThreatLevel] = useState(1);
 
   const points = [
     { latitude: 37.782551, longitude: -122.445368, weight: 1 },
     { latitude: 37.782745, longitude: -122.444586, weight: 1 },
-    // ... more points here
+    // Add more points as needed
   ];
 
   const handleAddThreat = () => {
@@ -20,7 +19,7 @@ function WelcomeScreen() {
 
   const handleSaveThreat = () => {
     setModalVisible(false);
-    console.log('Threat Details', threatDetails);
+    console.log('Threat Details:', threatDetails);
   };
 
   return (
@@ -60,12 +59,30 @@ function WelcomeScreen() {
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
             <Text style={styles.modalTitle}>Add Threat Details</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter threat details"
-              value={threatDetails}
-              onChangeText={setThreatDetails}
-            />
+            <Text style={styles.sliderLabel}>Threat level</Text>
+            <View style={styles.sliderRow}>
+              <Text style={styles.sliderLabelLeft}>0</Text>
+              <Slider
+                style={styles.slider}
+                minimumValue={0}
+                maximumValue={10}
+                minimumTrackTintColor="#1e90ff"
+                maximumTrackTintColor="#d3d3d3"
+                thumbTintColor="#1e90ff"
+                value={threatLevel}
+                onValueChange={setThreatLevel}
+                step={1}
+              />
+              <Text style={styles.sliderLabelRight}>10</Text>
+            </View>
+            <View style={styles.inputRow}>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter threat details"
+                value={threatDetails}
+                onChangeText={setThreatDetails}
+              />
+            </View>
             <TouchableOpacity style={styles.button} onPress={handleSaveThreat}>
               <Text style={styles.buttonText}>Save Threat</Text>
             </TouchableOpacity>
@@ -87,7 +104,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   button: {
-    backgroundColor: '#1c64ff',
+    backgroundColor: '#1c64ff', 
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 30,
@@ -112,6 +129,14 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
     height: '40%',
   },
   modalTitle: {
@@ -120,12 +145,46 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  slider: {
+    width: '80%',
+    height: 40,
+    marginBottom: 20,
+  },
+  sliderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  sliderLabelLeft: {
+    marginLeft: 30,
+  },
+  sliderLabelRight: {
+    marginRight: 30,
+  },
+  sliderLabel: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#f2f2f2',
+    borderColor: '#d3d3d3',
+    borderWidth: 1,
+    borderRadius: 20,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
   input: {
     height: 40,
     borderColor: '#d3d3d3',
     borderWidth: 1,
     borderRadius: 10,
-    marginBottom: 20,
+    flex: 1,
     paddingHorizontal: 10,
   },
   cancelButton: {
