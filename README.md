@@ -20,3 +20,6 @@ Threat Tracker is an iOS app built with React Native that provides real-time thr
 - **Hosting**: Reflex.dev
 
 <img title="LLM scraped data" src="news.png">
+
+- **LLM usage**: Extracted coordinates using Hyperbolic Labs' LLM from News articles scrabed from web. Also the danger level of incidents were assessed using LLM from the news.
+
