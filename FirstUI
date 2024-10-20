@@ -4,11 +4,11 @@ import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createStackNavigator } from '@react-navigation/stack';
+// import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
-const Stack = createStackNavigator();
+// const Stack = createStackNavigator();
 
 // Set notification handler
 Notifications.setNotificationHandler({
@@ -45,7 +45,7 @@ function isWithinRadius(currentLat, currentLon, targetLat, targetLon, radius) {
 }
 
 // Home Screen Component
-function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation }) {
   const [radius, setRadius] = useState(10);
   const [location, setLocation] = useState(null);
 
@@ -108,37 +108,33 @@ function HomeScreen({ navigation }) {
 }
 
 // Map Screen Component
-function MapScreen({ route }) {
-  const { location } = route.params;
-  const initialRegion = {
-    latitude: location ? location.coords.latitude : 37.78825,
-    longitude: location ? location.coords.longitude : -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  };
+// function AnotherScreen({ route }) {
+//   const { location } = route.params;
+//   const initialRegion = {
+//     latitude: location ? location.coords.latitude : 37.78825,
+//     longitude: location ? location.coords.longitude : -122.4324,
+//     latitudeDelta: 0.0922,
+//     longitudeDelta: 0.0421,
+//   };
 
-  return (
-    <View style={styles.container}>
-      <MapView
-        provider={PROVIDER_GOOGLE} // Use Google Maps
-        style={styles.map}
-        initialRegion={initialRegion}
-      />
-    </View>
-  );
-}
+//   return (
+//     <View style={styles.container}>
+//       <Text>Hello world</Text>
+//     </View>
+//   );
+// }
 
-// App Component
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Map" component={MapScreen} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+// // App Component
+// export default function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator initialRouteName="Home">
+//         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+//         <Stack.Screen name="Map" component={AnotherScreen} options={{ headerShown: false }} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {
