@@ -10,7 +10,7 @@ Threat Tracker is an iOS app built with React Native that provides real-time thr
 - **User Input for Threats**: Users can contribute by manually adding threats, specifying the location and assigning a danger level.
 - **Push Notifications**: Alerts users when there is a significant increase in danger levels around them.
   
-<img title="screenshot" src="pic1.png">
+<img title="screenshot" src="screenshot.png">
 
 ## Tech Stack
 
