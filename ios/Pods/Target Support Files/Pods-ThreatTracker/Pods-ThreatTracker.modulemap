@@ -1,0 +1,6 @@
+module Pods_ThreatTracker {
+  umbrella header "Pods-ThreatTracker-umbrella.h"
+
+  export *
+  module * { export * }
+}

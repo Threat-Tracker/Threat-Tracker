@@ -8,7 +8,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 // import Voice from '@react-native-voice/voice';
-
 const Stack = createStackNavigator();
 
 // Set notification handler
