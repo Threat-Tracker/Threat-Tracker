@@ -10,6 +10,8 @@ load_dotenv()
 # Access the API key
 api_key = os.getenv("HYPERBOLIC_API_KEY")
 
+news_title = ""
+
 
 def scrape_website(url):
     # pip install newspaper4k
@@ -33,7 +35,8 @@ def scrape_website(url):
 
     # print(article.movies)
     # []
-
+    global news_title
+    news_title = article.title
     # article.nlp()
 
     # print(article.keywords)
@@ -67,13 +70,13 @@ def call_LLM(content):
         ],
         "model": "meta-llama/Llama-3.2-3B-Instruct",
         "max_tokens": 512,
-        "temperature": 0.7,
+        "temperature": 0,
         "top_p": 0.9
     }
 
     response = requests.post(url, headers=headers, json=data)
-    print(response.json())
-    return (findJSON(response.json()))
+    return (findHelper(response.json()))
+    # return (response.json())
 
 
 def extract_fields(data, keys_to_find):
@@ -109,10 +112,43 @@ def findJSON(result):
         return (extracted_data)
 
 
-print(call_LLM(scrape_website(
-    "https://www.cbsnews.com/sanfrancisco/news/san-francisco-police-arrest-man-suspected-of-attacking-2-senior-citizens/")))
+def findHelper(response_data):
+
+    # Extract the relevant information
+    content = response_data['choices'][0]['message']['content']
+
+    # Parse the content to extract the array
+    content_array = json.loads(content.split('```json')[1].split('```')[0])
+
+    # Create the new dictionary
+    transformed_data = {
+        "danger_score": content_array[0]["danger_score"],
+        "coordinates": [content_array[0]["coordinates"]],
+        "title": news_title
+    }
+
+    # Print the transformed data
+    return (json.dumps(transformed_data, indent=2))
+
+
+def convert_to_database(result_json):
+    result_json = json.loads(result_json)
+    new_json = {}
+    coords_float = [float(coord)
+                    for coord in result_json["coordinates"][0].split(', ')]
+    new_json["latitude"] = coords_float[0]
+    new_json["longitude"] = coords_float[1]
+    new_json["weight"] = result_json["danger_score"]
+    new_json["summary"] = result_json["title"]
+    # print(new_json)
+    return (new_json)
+
+
+print(convert_to_database(call_LLM(scrape_website(
+    "https://www.newsweek.com/russian-major-dmitry-pervukha-killed-car-bomb-1971678"))))
 # example url
 # https://www.cbsnews.com/sanfrancisco/news/san-francisco-police-arrest-man-suspected-of-attacking-2-senior-citizens/
+# https://www.cbsnews.com/sanfrancisco/crime/
 # example content
 """San Francisco police on Wednesday said they arrested a man who is suspected of attacking two senior citizens.
 
